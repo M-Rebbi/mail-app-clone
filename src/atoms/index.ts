@@ -14,4 +14,5 @@ export {
     Pressable,
     Touchable,
     AnimatedBox,
+    TouchableOpacity
 };
