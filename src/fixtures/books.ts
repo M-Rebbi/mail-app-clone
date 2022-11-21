@@ -1,11 +1,11 @@
 import { Book } from "@/model";
-import LoremIpsum from 'lorem-ipsum'
+import {LoremIpsum} from 'lorem-ipsum'
 import shortid from "shortid";
 
 const DATA: Array<Book> = []
 
 const lorem = new LoremIpsum({
-    wordsPerSentece: {
+    wordsPerSentence: {
         max: 16,
         min: 4
     }

@@ -79,7 +79,7 @@ const SwipeableView = forwardRef<SwipeableViewHandle, Props>((props, ref) => {
     return (
         <AnimatedBox {...boxProps}>
             {backView && (
-                <Box position="absolute" top={0} right={0} left={0}>
+                <Box position="absolute" top={0} right={0} left={0} bottom={0}>
                     {typeof backView === 'function' ? backView({ progress }) : backView}
                 </Box>
             )}

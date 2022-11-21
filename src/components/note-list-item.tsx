@@ -18,7 +18,7 @@ const NoteListItem: React.FC<ListItemPorps> = props => {
 
     const handleSwipeLeft = useCallback((done) => {
         onSwipeLeft && onSwipeLeft(id, done)
-    }, [onSwipeLeft, id])
+    }, [id, onSwipeLeft])
 
     const renderBackView = useCallback(({ progress }) => (
         <NoteListItemActionView progress={progress} />
