@@ -1,7 +1,8 @@
-import React, { forwardRef, useImperativeHandle, useMemo, useRef } from 'react';
+import React, { forwardRef, useCallback, useImperativeHandle, useMemo, useRef } from 'react';
 import RNBottomSheet, { BottomSheetBackdrop } from '@gorhom/bottom-sheet'
 import BottomSheet from '@/atoms/bottom-sheet';
 import { Box, Text } from '@/atoms';
+import BookList from './book-list';
 
 interface Props {
     onClose?: () => void
@@ -24,6 +25,13 @@ const MoveNoteSheet = forwardRef<MoveNoteSheetHandle, Props>(
         }
     }))
 
+const handlePressItem = useCallback((_bookId: string) => {
+    const { current: bottomSheet} = refBottomSheet
+    if(bottomSheet){
+        bottomSheet.close()
+    }
+}, [])
+
     return (
         <BottomSheet
             ref={refBottomSheet} 
@@ -42,9 +50,16 @@ const MoveNoteSheet = forwardRef<MoveNoteSheetHandle, Props>(
             style={{marginHorizontal: 12}}
             onClose={onClose}
         >
-            <Box justifyContent="center" alignItems="center">
-                <Text fontWeight="bold">Move</Text>
-            </Box>
+            <BookList
+                inBottomSheet
+                onPressItem={handlePressItem}
+                color="$foreground"
+                headerComponent={() => (
+                    <Box justifyContent="center" alignItems="center">
+                        <Text fontWeight="bold">Move</Text>
+                    </Box>
+                )}
+            />
         </BottomSheet>
     )
     }

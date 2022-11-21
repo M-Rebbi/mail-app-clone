@@ -1,0 +1,22 @@
+import { Box, Text, TouchableOpacity } from '@/atoms'
+import { RootStackParamList } from '@/navs'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import * as React from 'react'
+
+type Props = NativeStackScreenProps<RootStackParamList, 'Detail'>
+
+export default function DetailScreen({navigation, route}: Props) {
+    return (
+        <Box
+            flex={1}
+            alignItems="center"
+            justifyContent="center"
+        >
+            <Text>Detail Screen</Text>
+            <Text m="lg">{JSON.stringify(route.params)}</Text>
+            <TouchableOpacity style={{padding: 12}} onPress={() => navigation.goBack()}>
+                <Text>Go Back</Text>
+            </TouchableOpacity>
+        </Box>
+    )
+}
