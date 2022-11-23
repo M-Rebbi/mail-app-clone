@@ -17,9 +17,16 @@ interface Props {
     onScroll: (event: NativeSyntheticEvent<NativeScrollEvent>) => void
     onItemPress: (noteId: string) => void
     onItemSwipeLeft: (noteId: string, cancel: () => void) => void
+    ListHeaderComponent?: React.ComponentType<any> | null | undefined
 }
 
-const NoteList: React.FC<Props> = ({onScroll, contentInsetTop, onItemPress, onItemSwipeLeft}) => {
+const NoteList: React.FC<Props> = ({
+    onScroll,
+    contentInsetTop, 
+    onItemPress, 
+    onItemSwipeLeft,
+    ListHeaderComponent
+}) => {
     const renderItem = useCallback(({item}) => {
         return <NoteListItem {...item} onPress={onItemPress} onSwipeLeft={onItemSwipeLeft}/>
     }, [onItemPress, onItemSwipeLeft])
@@ -33,7 +40,14 @@ const NoteList: React.FC<Props> = ({onScroll, contentInsetTop, onItemPress, onIt
             width="100%"
             onScroll={onScroll}
             scrollEventThrottle={16}
-            ListHeaderComponent={<Box width="100%" height={contentInsetTop} />}
+            ListHeaderComponent={
+                <Box>
+                    <>
+                        <Box width="100%" height={contentInsetTop} />
+                        {ListHeaderComponent && <ListHeaderComponent/>}
+                    </>
+                </Box>
+            }
         />
     )
 }
