@@ -35,7 +35,7 @@ const Sidebar: React.FC<DrawerContentComponentProps> = ({navigation}) => {
           flexDirection="row"
           alignItems="center"
           justifyContent="flex-start"
-          borderBottomColor="$sidebarSeperator"
+          borderBottomColor="$sidebarSeparator"
           borderBottomWidth={1}>
           <RMailLogo width={64} height={36} color="$primary" />
           <Text fontSize={18} color="$sidebarForeground">
