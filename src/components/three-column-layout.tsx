@@ -1,5 +1,5 @@
-import {ReactNode, useCallback, useRef} from 'react';
-import {Animated} from 'react-native';
+import {memo, ReactNode, useCallback, useEffect, useRef} from 'react';
+import {Animated, StyleSheet, View} from 'react-native';
 
 export type ThreeColumnLayoutProps = {
   type: 'three-column';
@@ -12,10 +12,10 @@ type Props = {
   renderLeftView: RenderView;
   renderMiddleView: RenderView;
   renderRightView: RenderView;
-  leftViewVisible?: boolean;
-  middleViewVisible?: boolean;
-  leftViewWidth?: number;
-  middleViewWidth?: number;
+  leftViewVisible: boolean;
+  middleViewVisible: boolean;
+  leftViewWidth: number;
+  middleViewWidth: number;
 };
 
 const ThreeColumnLayout: React.FC<Props> = props => {
@@ -52,7 +52,7 @@ const ThreeColumnLayout: React.FC<Props> = props => {
       if (visible) {
         Animated.spring(leftValue, {
           useNativeDriver: false,
-          toValue: leftViewWidth || 0,
+          toValue: leftViewWidth,
           bounciness: 0,
         }).start();
       } else {
@@ -65,6 +65,69 @@ const ThreeColumnLayout: React.FC<Props> = props => {
     },
     [leftValue, leftViewVisible],
   );
+  const toggleMiddleView = useCallback(
+    (visible: boolean) => {
+      if (visible) {
+        Animated.spring(middleValue, {
+          useNativeDriver: false,
+          toValue: middleViewWidth,
+          bounciness: 0,
+        }).start();
+      } else {
+        Animated.spring(middleValue, {
+          useNativeDriver: false,
+          toValue: 0,
+          bounciness: 0,
+        }).start();
+      }
+    },
+    [middleValue, middleViewWidth],
+  );
+
+  useEffect(() => {
+    toggleLeftView(leftViewVisible);
+  }, [leftViewVisible, toggleLeftView]);
+
+  useEffect(() => {
+    toggleMiddleView(middleViewVisible);
+  }, [middleViewVisible, toggleMiddleView]);
+
+  return (
+    <View style={styles.container}>
+      <Animated.View style={[styles.leftViewContainer, animatedLeftViewStyle]}>
+        <View style={{flex: 1, width: leftViewWidth}}>
+          {renderLeftView(viewProps)}
+        </View>
+      </Animated.View>
+      <Animated.View
+        style={[styles.middleViewContainer, animatedMiddleViewStyle]}>
+        <View style={{flex: 1, width: middleViewWidth}}>
+          {renderMiddleView(viewProps)}
+        </View>
+      </Animated.View>
+      <View style={styles.rightViewContainer}>
+        {renderRightView(viewProps)}
+      </View>
+    </View>
+  );
 };
 
-export default ThreeColumnLayout;
+export default memo<Props>(ThreeColumnLayout);
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  leftViewContainer: {
+    flexShrink: 0,
+    flexGrow: 0,
+  },
+  middleViewContainer: {
+    flexShrink: 0,
+    flexGrow: 0,
+  },
+  rightViewContainer: {
+    flex: 1,
+  },
+});
