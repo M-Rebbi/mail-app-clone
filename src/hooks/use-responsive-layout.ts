@@ -1,4 +1,4 @@
-import { RESPONSIVE_SCREEN_BREAKPOINT } from "const"
+import { RESPONSIVE_SCREEN_BREAKPOINT } from "../../const"
 import { useWindowDimensions } from "react-native"
 
 const useResponsiveLayout = () => {
